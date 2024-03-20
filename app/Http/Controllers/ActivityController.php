@@ -5,21 +5,23 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\activity;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class ActivityController extends Controller
 {
-    public function createActivity(Request $request){
+    public function createActivity(Request $request,$id){
         $validator = Validator::make($request->all(),[
             "activityName" => 'required'
         ]);
         if($validator->fails()){
             return response()->json(["error"=>$validator->errors()]);
         }else{
+            $user = User::find($id);
             $activity = new activity();
             $activity -> activityName = $request ->activityName;
-            $activity -> save();
+            $user ->activity() -> save($activity);
             if($activity){
                 return response()->json([
                     "success" => true,
@@ -30,8 +32,8 @@ class ActivityController extends Controller
         }
     }
 
-    public function getAllActivities(){
-        $activity = activity::all();
+    public function getAllActivities($id){
+        $activity = User::find($id)->activity;
         if($activity){
             return response()->json([
                 "success" => true,

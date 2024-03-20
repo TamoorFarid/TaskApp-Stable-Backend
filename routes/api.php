@@ -11,8 +11,8 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
-Route::post('/createActivity',[ActivityController::class,'createActivity']);
-Route::get('/getAllActivities',[ActivityController::class,'getAllActivities']);
+Route::post('/createActivity/{id}',[ActivityController::class,'createActivity']);
+Route::get('/getAllActivities/{id}',[ActivityController::class,'getAllActivities']);
 Route::post('/createTask/{id}',[TaskController::class,'createTask']);
 Route::get('/getTasksList/{id}',[TaskController::class,'getTasksList']);
 Route::delete('/deleteTask/{id}',[TaskController::class,'deleteTask']);
